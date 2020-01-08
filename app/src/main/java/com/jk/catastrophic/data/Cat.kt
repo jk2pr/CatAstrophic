@@ -18,7 +18,8 @@ data class Cat(
     val id: String?,
     val url: String?,
     val width: String?,
-    val height: String?
+    val height: String?,
+    var percentage:Double=0.0
 )
 
 data class Breeds(

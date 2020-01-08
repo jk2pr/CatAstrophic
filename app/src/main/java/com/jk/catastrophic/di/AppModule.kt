@@ -15,7 +15,6 @@ class AppModule {
         @Provides
         fun provideGlideRequestOptions(): RequestOptions {
             return RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_terrain_black_24dp)
 
         }

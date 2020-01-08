@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.jk.catastrophic.CatAstrophicApplication
 import com.jk.catastrophic.R
 
 
@@ -20,10 +18,6 @@ import com.jk.catastrophic.ui.fragments.CatFragment.OnListFragmentInteractionLis
 import com.jk.catastrophic.data.Cat
 import com.jk.catastrophic.databinding.FragmentCatBinding
 import com.jk.catastrophic.utils.DiffUtilCallBack
-import com.squareup.picasso.Target
-
-import kotlinx.android.synthetic.main.fragment_cat.view.*
-import javax.inject.Inject
 
 /**
  * [RecyclerView.Adapter] that can display a [Cat] and makes a call to the
@@ -48,7 +42,6 @@ class CatRecyclerViewAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil
             .inflate<FragmentCatBinding>(
@@ -71,6 +64,12 @@ class CatRecyclerViewAdapter(
         // holder.unBind()
     }
 
+    fun setPercentage(i: Int, percentage: Double) {
+        getItem(i)?.percentage = percentage
+        notifyItemChanged(i,percentage)
+
+    }
+
     inner class ViewHolder(private val binding: FragmentCatBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -82,6 +81,21 @@ class CatRecyclerViewAdapter(
         fun bind(catList: Cat) {
             with(binding) {
                 item = catList
+               /* if (catList.percentage < 80)
+                    binding.imageCat.setBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.imageCat.context,
+                            android.R.color.holo_red_dark
+                        )
+                    )
+                 else
+                    binding.imageCat.setBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.imageCat.context,
+                            android.R.color.holo_orange_dark
+                        )
+                    )
+*/
                 requestManager = this@CatRecyclerViewAdapter.requestManager
                 executePendingBindings()
 

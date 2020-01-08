@@ -9,13 +9,24 @@ import kotlinx.coroutines.*
 class CatDataSource(private val apiClient: ICatApi) : PageKeyedDataSource<Int, Cat>() {
 
 
+    private var job=Job()
+
+    init {
+
+        addInvalidatedCallback {
+
+            print("INValidated")
+
+        }
+    }
+
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Cat>
     ) {
 
 
-        val job = GlobalScope.launch(Dispatchers.Main) {
+         job = GlobalScope.launch(Dispatchers.Main) {
             try {
                 val postRequest =
                     apiClient.getCatsAsync(params.requestedLoadSize.toString(), FIRST_PAGE, "png")
@@ -23,6 +34,7 @@ class CatDataSource(private val apiClient: ICatApi) : PageKeyedDataSource<Int, C
                 if (response.isSuccessful) {
 
                     val posts = response.body()
+
 
                     callback.onResult(posts!!.toMutableList(), 0, FIRST_PAGE+1)
                     //callback.value = CatResource.authenticated(posts)
@@ -40,7 +52,7 @@ class CatDataSource(private val apiClient: ICatApi) : PageKeyedDataSource<Int, C
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Cat>) {
-        GlobalScope.launch(Dispatchers.Main) {
+       job= GlobalScope.launch(Dispatchers.Main) {
             try {
                 val postRequest =
                     apiClient.getCatsAsync(
@@ -72,7 +84,7 @@ class CatDataSource(private val apiClient: ICatApi) : PageKeyedDataSource<Int, C
 
     override fun invalidate() {
         super.invalidate()
-        //  job.cancel()
+          job.cancel()
     }
 
 

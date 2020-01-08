@@ -1,15 +1,16 @@
 package com.jk.catastrophic.ui.fragments
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.RequestManager
 import com.jk.catastrophic.CatAstrophicApplication
 import com.jk.catastrophic.R
@@ -33,7 +34,7 @@ class CatFragment : DaggerFragment() {
 
 
     private lateinit var catFragmentViewModel: CatFragmentViewModel
-  //  private lateinit var catLiveData: LiveData<PagedList<Cat>>
+    //  private lateinit var catLiveData: LiveData<PagedList<Cat>>
 
     @Inject
     lateinit var iCatApi: ICatApi
@@ -51,7 +52,7 @@ class CatFragment : DaggerFragment() {
         ).get(CatFragmentViewModel::class.java)
 
 
-     //   catLiveData = catFragmentViewModel.catPagedList
+        //   catLiveData = catFragmentViewModel.catPagedList
     }
 
     override fun onCreateView(
@@ -67,10 +68,9 @@ class CatFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         // Set the adapter
         with(list) {
-            layoutManager = GridLayoutManager(
-                context,
-                3
-                // StaggeredGridLayoutManager.VERTICAL
+            layoutManager = StaggeredGridLayoutManager(
+                3,
+                StaggeredGridLayoutManager.VERTICAL
             )
             adapter = CatRecyclerViewAdapter(
                 requestManager,
@@ -78,12 +78,78 @@ class CatFragment : DaggerFragment() {
             )
 
         }
-        catFragmentViewModel.catPagedList.observe(this, Observer<PagedList<Cat>>{
 
-            (list.adapter as CatRecyclerViewAdapter).apply {
-                print("Callback from Observer")
-                submitList(it)
-           /* when (it.status) {
+
+       /* list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val layoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager
+
+                var firstvisibleArray = intArrayOf(0, 0, 0)
+                var lastvisibleArray = intArrayOf(0, 0, 0)
+                layoutManager.findFirstVisibleItemPositions(firstvisibleArray)
+                layoutManager.findLastVisibleItemPositions(lastvisibleArray)
+
+
+                print(firstvisibleArray)
+                print(lastvisibleArray)
+
+                val first = firstvisibleArray[0]
+                val last = lastvisibleArray[lastvisibleArray.size - 1]
+
+                val rvRect = Rect()
+                recyclerView.getGlobalVisibleRect(rvRect);
+                val adapter = (recyclerView.adapter as CatRecyclerViewAdapter)
+                for (k in first..last) {
+                    val percentage =
+                        getVisibleHeightPercentage(layoutManager.findViewByPosition(k)!!)
+                    Log.d("Percentage  $k = ", percentage.toString())
+
+                    adapter.setPercentage(
+                        k,
+                        percentage
+                    )
+
+
+                }
+
+
+
+
+
+        }
+    })*/
+
+
+    catFragmentViewModel.catPagedList.observe(this, Observer<PagedList<Cat>>
+    {
+
+        (list.adapter as CatRecyclerViewAdapter).apply {
+            print("Callback from Observer")
+            submitList(it)
+            /* when (it.status) {
+                 CatResource.AuthStatus.LOADING -> {
+                     showProgress(true)
+                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+
+
+                 }
+                 else ->
+                     //  CatResource.AuthStatus.AUTHENTICATED ->
+                 {
+                     showProgress(false)
+
+                     addAll(it.data)
+                     notifyDataSetChanged()
+                 }
+             }*/
+
+        }
+
+    }
+    /*Observer<CatResource<CatResource<List<Cat>>>> {
+        (list.adapter as CatRecyclerViewAdapter).apply {
+            when (it.status) {
                 CatResource.AuthStatus.LOADING -> {
                     showProgress(true)
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -98,53 +164,50 @@ class CatFragment : DaggerFragment() {
                     addAll(it.data)
                     notifyDataSetChanged()
                 }
-            }*/
+
 
             }
 
+
         }
-            /*Observer<CatResource<CatResource<List<Cat>>>> {
-                (list.adapter as CatRecyclerViewAdapter).apply {
-                    when (it.status) {
-                        CatResource.AuthStatus.LOADING -> {
-                            showProgress(true)
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
 
 
-                        }
-                        else ->
-                            //  CatResource.AuthStatus.AUTHENTICATED ->
-                        {
-                            showProgress(false)
-
-                            addAll(it.data)
-                            notifyDataSetChanged()
-                        }
+    }*/)
 
 
-                    }
+}
 
 
-                }
+private fun getVisibleHeightPercentage(view: View): Double {
 
+    val itemRect = Rect()
+    val isParentViewEmpty = view.getLocalVisibleRect(itemRect)
 
-            }*/)
+    // Find the height of the item.
+    val visibleHeight = itemRect.height().toDouble()
+    val height = view.measuredHeight
 
+    val viewVisibleHeightPercentage = visibleHeight / height * 100
 
+    if (isParentViewEmpty) {
+        return viewVisibleHeightPercentage
+    } else {
+        return 0.0
     }
+}
 
-    private fun showProgress(isVisible: Boolean) {
-        if (isVisible)
-            progressBar.visibility = View.VISIBLE
-        else
-            progressBar.visibility = View.GONE
+private fun showProgress(isVisible: Boolean) {
+    if (isVisible)
+        progressBar.visibility = View.VISIBLE
+    else
+        progressBar.visibility = View.GONE
 
-    }
+}
 
-    interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: Cat?)
-    }
+interface OnListFragmentInteractionListener {
+    // TODO: Update argument type and name
+    fun onListFragmentInteraction(item: Cat?)
+}
 
 
 }

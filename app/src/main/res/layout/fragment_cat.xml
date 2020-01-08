@@ -7,6 +7,7 @@
         <variable
             name="item"
             type="com.jk.catastrophic.data.Cat" />
+
         <variable
             name="requestManager"
             type="com.bumptech.glide.RequestManager" />
@@ -18,25 +19,24 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <ImageView
             android:id="@+id/image_cat"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:adjustViewBounds="true"
-            android:background="@color/colorPrimary"
+            android:scaleType="fitCenter"
+
             android:onClick="@{(v)  -> itemClickListener.onItemClick(v,item)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:requestManager="@{requestManager}"
             app:profileImage="@{item.url}"
-            />
+            app:requestManager="@{requestManager}" />
     </androidx.cardview.widget.CardView>
 
 </layout>
