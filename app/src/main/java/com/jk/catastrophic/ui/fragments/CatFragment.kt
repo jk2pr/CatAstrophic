@@ -189,10 +189,10 @@ private fun getVisibleHeightPercentage(view: View): Double {
 
     val viewVisibleHeightPercentage = visibleHeight / height * 100
 
-    if (isParentViewEmpty) {
-        return viewVisibleHeightPercentage
+    return if (isParentViewEmpty) {
+        viewVisibleHeightPercentage
     } else {
-        return 0.0
+        0.0
     }
 }
 
