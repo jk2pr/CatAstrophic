@@ -16,6 +16,7 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-214dp"
         tools:listitem="@layout/fragment_cat" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
@@ -27,8 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

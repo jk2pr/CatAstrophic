@@ -5,7 +5,6 @@ import com.jk.catastrophic.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
-
 class CatAstrophicApplication : DaggerApplication() {
 
     companion object {
@@ -14,9 +13,6 @@ class CatAstrophicApplication : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
-
-
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {
@@ -25,9 +21,7 @@ class CatAstrophicApplication : DaggerApplication() {
             .application(this)
             .build()
 
-        appComponent.inject(this);
+        appComponent.inject(this)
         return appComponent
     }
-
-
 }

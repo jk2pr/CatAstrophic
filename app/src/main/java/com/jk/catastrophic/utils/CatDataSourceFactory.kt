@@ -7,14 +7,12 @@ import com.jk.catastrophic.service.ICatApi
 
 class CatDataSourceFactory(private val api: ICatApi) : DataSource.Factory<Int, Cat>() {
 
-      val catRepoLiveDataSource = MutableLiveData<CatDataSource>()
+    val catRepoLiveDataSource = MutableLiveData<CatDataSource>()
 
-    override fun create(): DataSource<Int, Cat>{
+    override fun create(): DataSource<Int, Cat> {
 
         val catDataSource = CatDataSource(api)
         catRepoLiveDataSource.postValue(catDataSource)
         return catDataSource
-
     }
-
 }

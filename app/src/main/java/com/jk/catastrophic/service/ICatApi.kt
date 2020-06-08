@@ -14,6 +14,6 @@ interface ICatApi {
         @Query("page") page: Int,
         @Query("mime_types") mime_types: String
     ):
-           Deferred<Response<List<Cat>>>
-           // Response<List<Cat>>
+            Deferred<Response<List<Cat>>>
+    // Response<List<Cat>>
 }

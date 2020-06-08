@@ -9,9 +9,8 @@ class DiffUtilCallBack : DiffUtil.ItemCallback<Cat>() {
     }
 
     override fun areContentsTheSame(oldItem: Cat, newItem: Cat): Boolean {
-        return oldItem.url == newItem.url
-                && oldItem.height == newItem.height
-                && oldItem.width == newItem.width
+        return oldItem.url == newItem.url &&
+                oldItem.height == newItem.height &&
+                oldItem.width == newItem.width
     }
-
 }

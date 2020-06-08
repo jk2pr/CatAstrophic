@@ -30,8 +30,5 @@ class NetworkModule {
             .client(client)
             .build()
             .create(ICatApi::class.java)
-
     }
-
-
 }

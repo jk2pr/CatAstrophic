@@ -19,7 +19,7 @@ data class Cat(
     val url: String?,
     val width: String?,
     val height: String?,
-    var percentage:Double=0.0
+    var percentage: Double = 0.0
 )
 
 data class Breeds(
@@ -61,8 +61,6 @@ data class Breeds(
     val hypoallergenic: String?
 )
 
-
 data class Categories(val id: String?, val name: String?)
-
 
 data class Weight(val imperial: String?, val metric: String?)

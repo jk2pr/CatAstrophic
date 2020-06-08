@@ -1,22 +1,18 @@
 package com.jk.catastrophic.ui.adapters
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.jk.catastrophic.R
-
-
-import com.jk.catastrophic.ui.fragments.CatFragment.OnListFragmentInteractionListener
 import com.jk.catastrophic.data.Cat
 import com.jk.catastrophic.databinding.FragmentCatBinding
+import com.jk.catastrophic.ui.fragments.CatFragment.OnListFragmentInteractionListener
 import com.jk.catastrophic.utils.DiffUtilCallBack
 
 /**
@@ -31,7 +27,6 @@ class CatRecyclerViewAdapter(
 
     private val mOnClickListener: View.OnClickListener
 
-
     init {
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as Cat
@@ -40,7 +35,6 @@ class CatRecyclerViewAdapter(
             mListener?.onListFragmentInteraction(item)
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil
@@ -58,7 +52,6 @@ class CatRecyclerViewAdapter(
         holder.bind(getItem(position)!!)
     }
 
-
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         // holder.unBind()
@@ -66,8 +59,7 @@ class CatRecyclerViewAdapter(
 
     fun setPercentage(i: Int, percentage: Double) {
         getItem(i)?.percentage = percentage
-        notifyItemChanged(i,percentage)
-
+        notifyItemChanged(i, percentage)
     }
 
     inner class ViewHolder(private val binding: FragmentCatBinding) :
@@ -75,32 +67,29 @@ class CatRecyclerViewAdapter(
 
         fun unBind() {
             requestManager.clear(binding.imageCat)
-
         }
 
         fun bind(catList: Cat) {
             with(binding) {
                 item = catList
-               /* if (catList.percentage < 80)
-                    binding.imageCat.setBackgroundColor(
-                        ContextCompat.getColor(
-                            binding.imageCat.context,
-                            android.R.color.holo_red_dark
-                        )
-                    )
-                 else
-                    binding.imageCat.setBackgroundColor(
-                        ContextCompat.getColor(
-                            binding.imageCat.context,
-                            android.R.color.holo_orange_dark
-                        )
-                    )
-*/
+                /* if (catList.percentage < 80)
+                     binding.imageCat.setBackgroundColor(
+                         ContextCompat.getColor(
+                             binding.imageCat.context,
+                             android.R.color.holo_red_dark
+                         )
+                     )
+                  else
+                     binding.imageCat.setBackgroundColor(
+                         ContextCompat.getColor(
+                             binding.imageCat.context,
+                             android.R.color.holo_orange_dark
+                         )
+                     )
+ */
                 requestManager = this@CatRecyclerViewAdapter.requestManager
                 executePendingBindings()
-
             }
-
         }
     }
 
@@ -111,7 +100,7 @@ class CatRecyclerViewAdapter(
         fun loadImage(view: ImageView, requestManager: RequestManager, url: String) {
             requestManager
                 .load(url)
-                //.dontTransform()
+                // .dontTransform()
                 /*.override(
                     com.bumptech.glide.request.target.Target.SIZE_ORIGINAL,
                     com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
@@ -119,9 +108,6 @@ class CatRecyclerViewAdapter(
                 .into(view)
             // .diskCacheStrategy(DiskCacheStrategy.ALL)
             //  .placeholder(R.drawable.loading_spinner)
-
         }
-
-
     }
 }
