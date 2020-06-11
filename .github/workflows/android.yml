@@ -20,6 +20,8 @@ jobs:
 
     - name: Clean
       run: ./gradlew clean
+    - name: Run Test
+      run: ./gradlew assembleDebugAndroidTest
     - name: Build debug APK
       run: ./gradlew assembleDebug --stacktrace
 

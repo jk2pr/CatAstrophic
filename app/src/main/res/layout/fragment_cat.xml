@@ -14,7 +14,7 @@
 
         <variable
             name="itemClickListener"
-            type="com.jk.catastrophic.callbacks.OnItemClickListner" />
+            type="com.jk.catastrophic.callbacks.OnItemClickListener" />
 
     </data>
 
